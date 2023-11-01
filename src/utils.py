@@ -10,6 +10,8 @@ from sampling import mnist_iid, fmnist_iid, mnist_noniid, mnist_noniid_unequal
 from sampling import cifar_iid, cifar_noniid
 from sklearn.cluster import KMeans
 import math
+import UdacityDataset as UD
+import data_utils
 
 def get_dataset(args):
     """ Returns train and test datasets and a user group which is a dict where
@@ -92,7 +94,17 @@ def get_dataset(args):
             raise NotImplementedError()
 
     elif args.dataset == 'udacity':
-        pass
+        train_dataset = UD.UdacityDataset(csv_file='',
+                             root_dir=,
+                            transform=transforms.Compose([transforms.ToPILImage(),transforms.ToTensor()]),
+                            select_camera='center_camera')
+        
+        test_dataset = UD.UdacityTestset(csv_file='',
+                             root_dir=,
+                            transform=transforms.Compose([transforms.ToPILImage(),transforms.ToTensor()]),
+                            select_camera='center_camera')
+        
+        user_groups = data_utils.udacity_split(train_dataset)
 
     else:
         exit('Unrecognized dataset!')
